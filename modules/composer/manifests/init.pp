@@ -8,7 +8,8 @@ class composer (
 		$php_package = "php${composer_config[php]}"
 	}
 	package { "${php_package}-dev":
-		ensure => latest,
+		ensure  => latest,
+		require => Package["${php_package}-fpm"]
 	}
 	package { 'php-pear':
 		ensure  => latest,
