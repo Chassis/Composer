@@ -7,14 +7,21 @@ class composer (
 	} else {
 		$php_package = "php${composer_config[php]}"
 	}
-	package { "${php_package}-dev":
-		ensure  => latest,
-		require => Package["${php_package}-fpm"]
+
+	if ! defined( Package["${php_package}-dev"] ) {
+		package { "${php_package}-dev":
+			ensure  => latest,
+			require => Package["${php_package}-fpm"]
+		}
 	}
-	package { 'php-pear':
-		ensure  => latest,
-		require => Package["${php_package}-dev"]
+
+	if ! defined( Package['php-pear'] ) {
+		package { 'php-pear':
+			ensure  => latest,
+			require => Package["${php_package}-dev"]
+		}
 	}
+
 	exec { 'install composer':
 		path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
 		environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
@@ -23,3 +30,4 @@ class composer (
 		unless      => 'test -f /usr/bin/composer',
 	}
 }
+
