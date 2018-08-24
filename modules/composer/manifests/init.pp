@@ -30,8 +30,8 @@ class composer (
 		$package = latest
 	}
 
-	if ! defined( Package["${php_cli}"] ) {
-		package { "${php_cli}":
+	if ! defined( Package[$php_cli] ) {
+		package { $php_cli:
 			ensure  => $package,
 		}
 	}
