@@ -1,15 +1,14 @@
 # Class to install and configure Composer
 class composer (
-	$path            = '/vagrant/extensions/composer',
-	$composer_config = sz_load_config()
+	$config,
 ) {
-	if versioncmp( $composer_config[php], '5.4') <= 0 {
+	if versioncmp( $config[php], '5.4') <= 0 {
 		$php_package = 'php5'
 	} else {
-		$php_package = "php${composer_config[php]}"
+		$php_package = "php${config[php]}"
 	}
 
-	if ( ! empty( $composer_config[disabled_extensions] ) and 'composer' in $composer_config[disabled_extensions] ) {
+	if ( ! empty( $config[disabled_extensions] ) and 'composer' in $config[disabled_extensions] ) {
 		$package = absent
 	} else {
 		$package = latest
