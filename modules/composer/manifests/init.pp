@@ -2,10 +2,24 @@
 class composer (
 	$config,
 ) {
-	if versioncmp( $config[php], '5.4') <= 0 {
+	$version = $config[php]
+
+	if $version =~ /^(\d+)\.(\d+)$/ {
+		$package_version = "${version}.*"
+		$short_ver = $version
+	}
+	else {
+		$package_version = "${version}*"
+		$short_ver = regsubst($version, '^(\d+\.\d+)\.\d+$', '\1')
+	}
+
+	if versioncmp( $version, '5.4') <= 0 {
 		$php_package = 'php5'
-	} else {
-		$php_package = "php${config[php]}"
+		$php_dir = 'php5'
+	}
+	else {
+		$php_package = "php${short_ver}"
+		$php_dir = "php/${short_ver}"
 	}
 
 	if ( ! empty( $config[disabled_extensions] ) and 'composer' in $config[disabled_extensions] ) {
