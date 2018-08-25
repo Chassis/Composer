@@ -2,6 +2,16 @@
 class composer (
 	$config,
 ) {
+	# Puppet 3.8 doesn't have the .each function and we need an alternative.
+	define install {
+		exec { "Installing Composer ${name}":
+			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
+			path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
+			cwd     => "/vagrant/${name}",
+			command => 'composer install',
+		}
+	}
+
 	$version = $config[php]
 
 	if $version =~ /^(\d+)\.(\d+)$/ {
@@ -45,6 +55,9 @@ class composer (
 			require     => [ Package['curl'], Package[$php_cli] ],
 			unless      => 'test -f /usr/bin/composer',
 		}
+		if ( $config[composer] and $config[composer][paths]) {
+			install { $config[composer][paths]: }
+		}
 	} else {
 		file { 'remove composer cache':
 			ensure => absent,
@@ -57,4 +70,3 @@ class composer (
 		}
 	}
 }
-
