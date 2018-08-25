@@ -6,9 +6,9 @@ class composer (
 	define install {
 		exec { "Installing Composer ${name}":
 			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
-			path    => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
-			cwd     => "/vagrant/${name}",
-			command => 'composer install',
+			path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
+			cwd         => "/vagrant/${name}",
+			command     => 'composer install',
 		}
 	}
 
