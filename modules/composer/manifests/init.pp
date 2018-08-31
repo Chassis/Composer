@@ -2,11 +2,27 @@
 class composer (
 	$config,
 ) {
-	if versioncmp( $config[php], '5.4') <= 0 {
-		$php_package = 'php5'
-	} else {
-		$php_package = "php${config[php]}"
+	$version = $config[php]
+
+	if $version =~ /^(\d+)\.(\d+)$/ {
+		$package_version = "${version}.*"
+		$short_ver = $version
 	}
+	else {
+		$package_version = "${version}*"
+		$short_ver = regsubst($version, '^(\d+\.\d+)\.\d+$', '\1')
+	}
+
+	if versioncmp( $version, '5.4') <= 0 {
+		$php_package = 'php5'
+		$php_dir = 'php5'
+	}
+	else {
+		$php_package = "php${short_ver}"
+		$php_dir = "php/${short_ver}"
+	}
+
+	$php_cli = "php${short_ver}-cli"
 
 	if ( ! empty( $config[disabled_extensions] ) and 'composer' in $config[disabled_extensions] ) {
 		$package = absent
@@ -14,17 +30,9 @@ class composer (
 		$package = latest
 	}
 
-	if ! defined( Package["${php_package}-dev"] ) {
-		package { "${php_package}-dev":
+	if ! defined( Package[$php_cli] ) {
+		package { $php_cli:
 			ensure  => $package,
-			require => Package["${php_package}-fpm"]
-		}
-	}
-
-	if ! defined( Package['php-pear'] ) {
-		package { 'php-pear':
-			ensure  => $package,
-			require => Package["${php_package}-dev"]
 		}
 	}
 
@@ -34,7 +42,7 @@ class composer (
 			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 			command     =>
 				'curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer',
-			require     => [ Package['curl'], Package['php-pear'] ],
+			require     => [ Package['curl'], Package[$php_cli] ],
 			unless      => 'test -f /usr/bin/composer',
 		}
 	} else {
