@@ -20,8 +20,12 @@ You can have Chassis automatically run `composer install` in a number of directo
 ```
 composer:
     paths:
-        - content/plugins/test
-        - content/themes/atheme
+        # Use absolute paths on the VM. For a default Chassis installation this should be:
+        - /vagrant/content/plugins/yourplugin
+        - /vagrant/content/themes/atheme
+        # If you're using paths (http://docs.chassis.io/en/latest/config/#paths) in Chassis this should be:
+        - /chassis/content/plugins/yourplugin
+        - /chassis/content/themes/atheme
 ```
 
 You'll need to run `vagrant provision` for those to be installed if you'd added them after your first initial Chassis `vagrant up`.
