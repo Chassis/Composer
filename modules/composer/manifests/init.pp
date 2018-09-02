@@ -30,7 +30,7 @@ class composer (
 		exec { "Installing Composer ${name}":
 		  environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 		  path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
-		  cwd         => "/vagrant/${name}",
+		  cwd         => $name,
 		  command     => 'composer install',
 		  require     => [ Exec['install composer'] ],
 		}
