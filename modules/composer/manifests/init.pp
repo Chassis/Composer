@@ -31,7 +31,7 @@ class composer (
 		  environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 		  path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
 		  cwd         => $name,
-		  command     => 'composer install --ignore-platform-reqs',
+		  command     => 'composer install --no-dev --ignore-platform-reqs',
 		  require     => [ Exec['install composer'] ],
 		}
 	}
