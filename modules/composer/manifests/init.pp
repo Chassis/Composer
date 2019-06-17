@@ -28,11 +28,12 @@ class composer (
 	# Puppet 3.8 doesn't have the .each function and we need an alternative.
 	define install {
 		exec { "Installing Composer ${name}":
-		  environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
-		  path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
-		  cwd         => $name,
-		  command     => 'composer install --no-dev --ignore-platform-reqs',
-		  require     => [ Exec['install composer'] ],
+			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
+			path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
+			cwd         => $name,
+			command     => 'composer install',
+			require     => [ Exec['install composer'] ],
+			logoutput   => true,
 		}
 	}
 
