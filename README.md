@@ -28,4 +28,13 @@ composer:
         - /chassis/content/themes/atheme
 ```
 
+You can also specify options to pass to `composer install` e.g.
+```
+composer:
+    paths:
+        - /vagrant/content/plugins/yourplugin
+        - /vagrant/content/themes/atheme
+    options: --prefer-source --verbose
+```
+
 You'll need to run `vagrant provision` for those to be installed if you'd added them after your first initial Chassis `vagrant up`.
