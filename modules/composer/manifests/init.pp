@@ -34,7 +34,7 @@ class composer (
 			command     => 'composer install',
 			require     => [ Exec['install composer'] ],
 			logoutput   => true,
-			onlyif      => "test ! -f composer.lock"
+			onlyif      => 'test ! -f composer.lock'
 		}
 	}
 
