@@ -34,7 +34,7 @@ class composer (
 			command     => "composer install ${config[composer][options]}",
 			require     => [ Exec['install composer'] ],
 			logoutput   => true,
-			onlyif      => 'test ! -f composer.lock'
+			onlyif      => 'test ! -d vendor'
 		}
 	}
 
