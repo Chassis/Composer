@@ -60,7 +60,7 @@ class composer (
 			unless      => 'test -f /usr/bin/composer',
 		}
 		if ( $config[composer] and $config[composer][paths]) {
-			install { $config[composer][paths]: }
+			composer::install { $config[composer][paths]: }
 		}
 	} else {
 		file { 'remove composer cache':
