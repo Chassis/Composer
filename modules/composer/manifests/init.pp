@@ -31,7 +31,7 @@ class composer (
 			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 			path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
 			cwd         => $name,
-			command     => "composer install ${config[composer][options]}",
+			command     => "sudo composer install ${config[composer][options]}",
 			require     => [ Exec['install composer'] ],
 			logoutput   => true,
 			onlyif      => 'test ! -d vendor'
