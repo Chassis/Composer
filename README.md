@@ -8,11 +8,21 @@ The Composer extension automatically sets up your Chassis instance to be able to
 
 ## Alternative Installation
 1. Add `- chassis/composer` to your `extensions` in one of you [yaml](http://docs.chassis.io/en/latest/config/) files. e.g.
-	```
-	extensions:
-	- chassis/composer
-	```
+    ```
+    extensions:
+    - chassis/composer
+    ```
 2. Run `vagrant provision`.
+
+## Installing Composer version 1
+
+By default Composer 2.x is installed but if you require Composer version 1.x for your project then you can add the 
+following to one of your [yaml](http://docs.chassis.io/en/latest/config/) files.
+
+```yaml
+composer:
+  version: 1
+```
 
 ## Installing Composer dependencies
 
