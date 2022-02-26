@@ -50,12 +50,18 @@ class composer (
 		}
 	}
 
+	if ( ! empty( $config[composer] ) and $config[composer][version] ) {
+		$composer_version = $config[composer][version]
+	} else {
+		$composer_version = 2
+	}
+
 	if ( $package == 'latest' ) {
 		exec { 'install composer':
 			path        => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ],
 			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 			command     =>
-				'curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer',
+				"curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer --${$composer_version}",
 			require     => [ Package['curl'], Package[$php_cli] ],
 			unless      => 'test -f /usr/bin/composer',
 		}
