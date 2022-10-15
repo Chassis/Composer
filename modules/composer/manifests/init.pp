@@ -23,8 +23,6 @@ class composer (
 		$php_dir = "php/${short_ver}"
 	}
 
-	$php_cli = "php${short_ver}-cli"
-
 	# Puppet 3.8 doesn't have the .each function and we need an alternative.
 	define install {
 		exec { "Installing Composer ${name}":
@@ -44,12 +42,6 @@ class composer (
 		$package = latest
 	}
 
-	if ! defined( Package[$php_cli] ) {
-		package { $php_cli:
-			ensure  => $package,
-		}
-	}
-
 	if ( ! empty( $config[composer] ) and $config[composer][version] ) {
 		$composer_version = $config[composer][version]
 	} else {
@@ -62,7 +54,7 @@ class composer (
 			environment => [ 'COMPOSER_HOME=/usr/bin/composer' ],
 			command     =>
 				"curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer --${$composer_version}",
-			require     => [ Package['curl'], Package[$php_cli] ],
+			require     => [ Package['curl'], Package["${php_package}-cli"] ],
 			unless      => 'test -f /usr/bin/composer',
 		}
 		if ( $config[composer] and $config[composer][paths]) {
